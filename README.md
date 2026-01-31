@@ -178,30 +178,6 @@ bookstore-api/
 ├── requirements.txt
 └── README.md
 ```
-
-## Database Schema
-
-### Users
-- id, username, email, password (hashed)
-- role (ADMIN/USER), is_active, email_verified
-
-### Authors
-- id, name, bio, birth_date
-
-### Books
-- id, title, description, price, stock_quantity
-- author_id (FK to Authors)
-
-### Orders
-- id, user_id, book_id, quantity, total_price
-- created_at
-
-### Reviews
-- id, user_id, book_id, rating, comment, created_at
-
-### Wishlists
-- id, user_id, book_id, added_at
-
 ## Configuration
 
 Key settings in `app/config.py`:
