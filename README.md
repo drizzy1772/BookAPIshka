@@ -1,53 +1,154 @@
+#  LibraryBook API
 
-📚 Library API
 A modern REST API for managing a bookstore with authors, books, orders, and user authentication built with FastAPI and SQLAlchemy.
 
-Tech Stack
 
-FastAPI - Modern web framework
-SQLAlchemy 2.0 - Async ORM
-PostgreSQL - Primary database
-Alembic - Database migrations
-Pydantic - Data validation
-JWT - Token-based authentication
-pytest - Testing framework
+## Tech Stack
 
- Prerequisites
+- **FastAPI** - Modern web framework
+- **SQLAlchemy 2.0** - Async ORM
+- **PostgreSQL** - Primary database
+- **Alembic** - Database migrations
+- **Pydantic** - Data validation
+- **JWT** - Token-based authentication
+- **pytest** - Testing framework
 
-Python 3.11+
-PostgreSQL
-pip or poetry
+## Prerequisites
 
-Clone repository
+- Python 3.11+
+- PostgreSQL
+- pip or poetry
 
-https://github.com/drizzy1772/LibraryAPI.git
-cd LibraryAPI
+## Installation
 
-Install dependencies
+1. **Clone the repository**
+```bash
+git clone https://github.com/yourusername/bookstore-api.git
+cd bookstore-api
+```
 
-bash = pip install -r requirements.txt
+2. **Create virtual environment**
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
-Setup environment variables
+3. **Install dependencies**
+```bash
+pip install -r requirements.txt
+```
 
-bash = cp .env.example .env
+4. **Setup environment variables**
+```bash
+cp .env.example .env
+```
 
-try to edit.env with ur configurations
-
+Edit `.env` with your configuration:
+```env
 DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/bookstore
 SECRET_KEY=your-secret-key-here
 DEBUG=False
 ACCESS_TOKEN_EXPIRE_MINUTES=40
+```
 
-Initialize database
-
+5. **Initialize database**
+```bash
+# Run migrations
 alembic upgrade head
+```
 
-Start the server
-
+6. **Start the server**
+```bash
 uvicorn app.main:app --reload
+```
 
-Project Structure
+## API Documentation
 
+Once the server is running, visit:
+- **Swagger UI**: http://localhost:8000/docs
+- **ReDoc**: http://localhost:8000/redoc
+
+## Authentication
+
+### Register a new user
+```bash
+POST /auth/register
+{
+  "username": "john_doe",
+  "email": "john@example.com",
+  "password": "secure_password"
+}
+```
+
+### Login
+```bash
+POST /auth/login
+{
+  "username": "john_doe",
+  "password": "secure_password"
+}
+```
+
+Response:
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "bearer"
+}
+```
+
+Use the token in subsequent requests:
+```bash
+Authorization: Bearer <your_token>
+```
+
+## API Endpoints
+
+### Authors
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| GET | `/authors` | List all authors | No |
+| GET | `/authors/{id}` | Get author details with books | No |
+| POST | `/authors` | Create new author | Admin only |
+
+### Books
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| GET | `/books` | List all books (paginated) | No |
+| GET | `/books/{id}` | Get book details | No |
+| POST | `/books` | Create new book | Admin only |
+| PATCH | `/books/{id}` | Update book | Admin only |
+| DELETE | `/books/{id}` | Delete book | Admin only |
+
+### Orders
+
+| Method | Endpoint | Description | Auth Required |
+|--------|----------|-------------|---------------|
+| POST | `/orders` | Place an order | User |
+
+
+## Testing
+
+Run the test suite:
+```bash
+pytest
+```
+
+Run with coverage:
+```bash
+pytest --cov=app tests/
+```
+
+Run specific test file:
+```bash
+pytest tests/test_books.py
+```
+
+## Project Structure
+
+```
 bookstore-api/
 ├── alembic/                 # Database migrations
 │   ├── versions/           # Migration files
@@ -76,31 +177,13 @@ bookstore-api/
 ├── alembic.ini
 ├── requirements.txt
 └── README.md
+```
 
-Authentication
-Register a new user
-bashPOST /auth/register
-{
-  "username": "john_doe",
-  "email": "john@example.com",
-  "password": "secure_password"
-}
-Login
-bashPOST /auth/login
-{
-  "username": "john_doe",
-  "password": "secure_password"
-}
-Response:
-json{
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "token_type": "bearer"
-}
-Use the token in subsequent requests:
-bashAuthorization: Bearer <your_token>
-📖 API Endpoints
-Authors
-MethodEndpointDescriptionAuth RequiredGET/authorsList all authorsNoGET/authors/{id}Get author details with booksNoPOST/authorsCreate new authorAdmin only
-Books
-MethodEndpointDescriptionAuth RequiredGET/booksList all books (paginated)NoGET/books/{id}Get book detailsNoPOST/booksCreate new bookAdmin onlyPATCH/books/{id}Update bookAdmin onlyDELETE/books/{id}Delete bookAdmin only
+## Configuration
 
+Key settings in `app/config.py`:
+- `DATABASE_URL` - PostgreSQL connection string
+- `SECRET_KEY` - JWT signing key
+- `ACCESS_TOKEN_EXPIRE_MINUTES` - Token expiration time
+- `DEFAULT_PAGE_SIZE` - Default pagination size
+- `MAX_PAGE_SIZE` - Maximum items per page
