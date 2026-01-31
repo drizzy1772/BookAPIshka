@@ -1,35 +1,10 @@
-# 📚 BookStore API
+# BookStore API
 
 A modern REST API for managing a bookstore with authors, books, orders, and user authentication built with FastAPI and SQLAlchemy.
 
-## ✨ Features
+## Features
 
-- **User Authentication & Authorization**
-  - JWT-based authentication
-  - Role-based access control (Admin/User)
-  - Secure password hashing with bcrypt
-
-- **Book Management**
-  - CRUD operations for books
-  - Stock quantity tracking
-  - Pagination support
-  - Filter by author
-
-- **Author Management**
-  - Author profiles with biography
-  - Book associations
-  - Admin-only creation
-
-- **Order System**
-  - Place orders with automatic stock reduction
-  - Order history tracking
-  - Stock validation
-
-- **Reviews & Wishlists** (Models ready for implementation)
-  - User reviews for books
-  - Wishlist functionality
-
-## 🛠 Tech Stack
+## Tech Stack
 
 - **FastAPI** - Modern web framework
 - **SQLAlchemy 2.0** - Async ORM
@@ -39,17 +14,17 @@ A modern REST API for managing a bookstore with authors, books, orders, and user
 - **JWT** - Token-based authentication
 - **pytest** - Testing framework
 
-## 📋 Prerequisites
+## Prerequisites
 
 - Python 3.11+
 - PostgreSQL
 - pip or poetry
 
-## 🚀 Installation
+## Installation
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/bookstore-api.git
+git clone https://github.com/drizzy1772/libraryAPI-api.git
 cd bookstore-api
 ```
 
@@ -88,15 +63,13 @@ alembic upgrade head
 uvicorn app.main:app --reload
 ```
 
-The API will be available at `http://localhost:8000`
-
-## 📚 API Documentation
+## API Documentation
 
 Once the server is running, visit:
 - **Swagger UI**: http://localhost:8000/docs
 - **ReDoc**: http://localhost:8000/redoc
 
-## 🔐 Authentication
+## Authentication
 
 ### Register a new user
 ```bash
@@ -130,7 +103,7 @@ Use the token in subsequent requests:
 Authorization: Bearer <your_token>
 ```
 
-## 📖 API Endpoints
+## API Endpoints
 
 ### Authors
 
@@ -156,56 +129,7 @@ Authorization: Bearer <your_token>
 |--------|----------|-------------|---------------|
 | POST | `/orders` | Place an order | User |
 
-## 💡 Usage Examples
-
-### Create an Author (Admin only)
-```bash
-curl -X POST "http://localhost:8000/authors" \
-  -H "Authorization: Bearer <admin_token>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "J.K. Rowling",
-    "bio": "British author, best known for Harry Potter series",
-    "birth_date": "1965-07-31"
-  }'
-```
-
-### Create a Book (Admin only)
-```bash
-curl -X POST "http://localhost:8000/books" \
-  -H "Authorization: Bearer <admin_token>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "Harry Potter and the Philosopher Stone",
-    "description": "The first book in the Harry Potter series",
-    "price": 2500,
-    "stock_quantity": 100,
-    "author_id": 1
-  }'
-```
-
-### List Books with Pagination
-```bash
-curl "http://localhost:8000/books?limit=20&offset=0"
-```
-
-### Filter Books by Author
-```bash
-curl "http://localhost:8000/books?author_id=1"
-```
-
-### Place an Order
-```bash
-curl -X POST "http://localhost:8000/orders" \
-  -H "Authorization: Bearer <user_token>" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "book_id": 1,
-    "quantity": 2
-  }'
-```
-
-## 🧪 Testing
+## Testing
 
 Run the test suite:
 ```bash
@@ -222,7 +146,7 @@ Run specific test file:
 pytest tests/test_books.py
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 bookstore-api/
@@ -255,7 +179,7 @@ bookstore-api/
 └── README.md
 ```
 
-## 🗄 Database Schema
+## Database Schema
 
 ### Users
 - id, username, email, password (hashed)
@@ -278,33 +202,7 @@ bookstore-api/
 ### Wishlists
 - id, user_id, book_id, added_at
 
-## 🔄 Database Migrations
-
-Create a new migration after model changes:
-```bash
-alembic revision --autogenerate -m "Description of changes"
-```
-
-Apply migrations:
-```bash
-alembic upgrade head
-```
-
-Rollback last migration:
-```bash
-alembic downgrade -1
-```
-
-## 🛡 Security Features
-
-- Password hashing with bcrypt
-- JWT token-based authentication
-- Role-based access control
-- Protected admin endpoints
-- SQL injection prevention via ORM
-- Input validation with Pydantic
-
-## ⚙️ Configuration
+## Configuration
 
 Key settings in `app/config.py`:
 - `DATABASE_URL` - PostgreSQL connection string
@@ -312,45 +210,3 @@ Key settings in `app/config.py`:
 - `ACCESS_TOKEN_EXPIRE_MINUTES` - Token expiration time
 - `DEFAULT_PAGE_SIZE` - Default pagination size
 - `MAX_PAGE_SIZE` - Maximum items per page
-
-## 🐛 Troubleshooting
-
-### Database connection issues
-```bash
-# Check PostgreSQL is running
-sudo service postgresql status
-
-# Check connection string in .env
-DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5432/bookstore
-```
-
-### Migration errors
-```bash
-# Clean database (WARNING: deletes all data)
-python clean_db.py
-
-# Re-run migrations
-alembic upgrade head
-```
-
-## 📝 License
-
-This project is licensed under the MIT License.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📧 Contact
-
-Your Name - your.email@example.com
-
-Project Link: [https://github.com/yourusername/bookstore-api](https://github.com/yourusername/bookstore-api)
-
----
-
-Made with ❤️ using FastAPI
