@@ -1,10 +1,22 @@
+
+
+
+
+
+
+
+
+
+
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from sqlalchemy.orm import lazyload
-from app.models import Author, Book, Order, User
+from app.models import Author, Book, Order, User, Review, WishList
 from app.schemas import AuthorCreate, BookCreate, BookUpdate, OrderCreate, UserCreate
 from app.security import get_password_hash
+from fastapi import HTTPException
+
 
 async def get_author(db: AsyncSession, author_id: int) -> Author | None:
     result = await db.execute(
@@ -154,3 +166,83 @@ async def create_order(
     await db.flush()
     await db.refresh(order)
     return order
+
+async def create_review(
+    db: AsyncSession,
+    user_id: int,
+    book_id: int,
+    rating: int,
+    comment: str | None,
+) -> Review:
+    
+    review = Review(
+        user_id=user_id,
+        book_id=book_id,
+        rating=rating,
+        comment=comment
+    )
+    db.add(review)
+    await db.flush()
+    await db.refresh(review)
+    return review
+
+async def get_book_reviews(db: AsyncSession, book_id: int) -> list[Review]:
+    result = await db.execute(
+        select(Review).where(Review.book_id == book_id)
+    )
+    
+    return result.scalars().all()
+
+async def delete_review(db: AsyncSession, review_id: int, user_id: int) -> bool:
+    result = await db.execute(
+        select(Review).where(Review.id == review_id, Review.user_id == user_id)
+    )
+    review = result.scalar_one_or_none()
+    if not review:
+        return False
+    
+    await db.delete(review)
+    await db.flush()
+    return True
+
+async def delete_review(db: AsyncSession, review_id: int, user_id: int) -> bool:
+    result = await db.execute(
+        select(Review).where(Review.id == review_id, Review.user_id == user_id)
+    )
+    review = result.scalar_one_or_none()
+    if not review:
+        return False
+    
+    await db.delete(review)
+    await db.flush()
+    return True
+
+async def add_to_wishlist(db: AsyncSession, user_id: int, book_id: int) -> WishList:
+    wishlist = WishList(
+        user_id=user_id,
+        book_id=book_id
+    )
+    db.add(wishlist)
+    await db.flush()
+    await db.refresh(wishlist)
+    return wishlist
+
+async def get_wishlist(db: AsyncSession, user_id: int) -> list[WishList]:
+    result = await db.execute(
+        select(WishList).where(WishList.user_id == user_id)
+    )
+    
+    return result.scalars().all()
+
+async def remove_from_wishlist(db: AsyncSession, user_id: int, book_id: int) -> bool:
+    result = await db.execute(
+        select(WishList).where(WishList.user_id == user_id, WishList.book_id == book_id)
+    )
+    review = result.scalar_one_or_none()
+    if not review:
+        return False
+    
+    await db.delete(review)
+    await db.flush()
+    return True
+

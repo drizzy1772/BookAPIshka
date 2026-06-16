@@ -1,6 +1,8 @@
+
+
+
 from datetime import date, datetime
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
-
 from app.models import UserRole
 
 class AuthorBase(BaseModel):
@@ -102,10 +104,6 @@ class WishListItemResponse(BaseModel):
     book_id: int
     added_at: datetime
 
-class WishListResponse(BaseModel):
-    user_id: int
-    books: list[BookResponse]
-    total_items: int
 
 class AuthorWithBooksResponse(AuthorResponse):
     books: list[BookListResponse] = []
@@ -153,3 +151,18 @@ class PaginatedBooks(BaseModel):
     total: int
     limit: int
     offset: int
+    
+class ReviewResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    
+    id: int
+    user_id: int
+    book_id: int
+    rating: int
+    comment: str | None
+    created_at: datetime
+
+
+class ReviewCreate(BaseModel):
+    rating: int = Field(ge=1, le=5)
+    comment: str | None
