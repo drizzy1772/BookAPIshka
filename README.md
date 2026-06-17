@@ -69,7 +69,9 @@ Once the server is running, visit:
 - **Swagger UI**: http://localhost:8000/docs
 - **ReDoc**: http://localhost:8000/redoc
 
-## Authentication
+
+## Authentication instruction and image
+<img width="1445" height="970" alt="Untitled(2)" src="https://github.com/user-attachments/assets/9f9d8645-1330-481d-ae2c-a3d4353ec0db" />
 
 ### Register a new user
 ```bash
