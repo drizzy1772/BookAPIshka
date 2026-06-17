@@ -21,7 +21,7 @@ A modern REST API for managing a bookstore with authors, books, orders, and user
 - pip or poetry
 
 ## Visualisation idea
-<img width="547" height="385" alt="Untitled Diagram drawio(12)" src="https://github.com/user-attachments/assets/b192f18a-4fc9-4a79-8fb2-4697f2cd35eb" />
+<img width="651" height="450" alt="Untitled Diagram drawio(6)" src="https://github.com/user-attachments/assets/e1a57cb9-7a33-45d4-808a-8dda0e4e7fc9" />
 
 
 ## Installation
