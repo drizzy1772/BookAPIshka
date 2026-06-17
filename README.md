@@ -20,6 +20,9 @@ A modern REST API for managing a bookstore with authors, books, orders, and user
 - PostgreSQL
 - pip or poetry
 
+## Visualisation idea
+<img width="651" height="450" alt="Untitled Diagram drawio(5)" src="https://github.com/user-attachments/assets/081e6f43-147e-4091-a6fa-ad98809dde7d" />
+
 ## Installation
 
 1. **Clone the repository**
